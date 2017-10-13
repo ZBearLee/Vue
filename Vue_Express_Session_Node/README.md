@@ -7,8 +7,6 @@ npm install
 ```
 ## 执行
 ```
-cd Vue_Express_Session_Node
-npm run dev
 cd server
 nodemon app.js
-``
+```
