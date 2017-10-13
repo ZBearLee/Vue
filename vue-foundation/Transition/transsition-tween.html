@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s
+        }
+
+        .fade-enter,
+        .fade-leave-to
+        /* .fade-leave-active in below version 2.1.8 */
+
+        {
+            opacity: 0
+        }
+    </style>
+</head>
+
+<body>
+    <div id="animated-number-demo">
+        <input v-model.number="number" type="number" step="20">
+        <p>{{ animatedNumber }}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+    <script src="https://cdn.bootcss.com/vue/2.4.1/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#animated-number-demo',
+            data: {
+                number: 0,
+                animatedNumber: 0
+            },
+            watch: {
+                number: function (newValue, oldValue) {
+                    var vm = this
+                    function animate() {
+                        if (TWEEN.update()) {
+                            requestAnimationFrame(animate)
+                        }
+                    }
+                    new TWEEN.Tween({ tweeningNumber: oldValue })
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .to({ tweeningNumber: newValue }, 500)
+                        .onUpdate(function () {
+                            vm.animatedNumber = this.tweeningNumber.toFixed(0)
+                        })
+                        .start()
+                    animate()
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
